@@ -1,0 +1,14 @@
+{
+    "name": "MailboxValidator/MailboxValidator-CakePHP",
+    "description": "MailboxValidator plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "require": {
+        "cakephp/cakephp": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MailboxValidatorCakePHP\\": "/plugins/MailboxValidatorCakePHP/src/"
+        }
+    }
+}
