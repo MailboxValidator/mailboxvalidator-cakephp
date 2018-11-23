@@ -15,7 +15,7 @@ Open the terminal, locate to your project root and run the following command :
 If you want to manually install this plugin, firstly clone the plugin folder to the plugins folder under your website project. After that, include the following line in config/bootstrap.php:
 
 ```php
-Plugin::load('MailboxValidatorCakePHP', ['bootstrap' => false, 'routes' => true, 'autoload' => true]);
+Plugin::load('mailboxvalidator-cakephp', ['bootstrap' => false, 'routes' => true, 'autoload' => true]);
 ```
 
 
