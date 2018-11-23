@@ -1,5 +1,5 @@
 {
-    "name": "MailboxValidator/mailboxvalidator-cakephp",
+    "name": "mailboxvalidator/mailboxvalidator-cakephp",
     "description": "MailboxValidator plugin for CakePHP",
     "type": "cakephp-plugin",
     "license": "MIT",
