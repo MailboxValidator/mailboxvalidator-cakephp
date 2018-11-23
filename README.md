@@ -8,7 +8,7 @@ MailboxValidator CakePHP Email Validation Package provides an easy way to call t
 
 Open the terminal, locate to your project root and run the following command :
 
-`composer require MailboxValidatorCakePHP`
+`composer require mailboxvalidator/mailboxvalidator-cakephp`
 
 
 
