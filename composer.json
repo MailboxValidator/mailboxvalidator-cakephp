@@ -2,7 +2,16 @@
     "name": "mailboxvalidator/mailboxvalidator-cakephp",
     "description": "MailboxValidator plugin for CakePHP",
     "type": "cakephp-plugin",
+    "keywords": ["cakephp", "mailboxvalidator", "email validation"],
+    "homepage": "https://github.com/MailboxValidator/mailboxvalidator-cakephp",
+    "authors": [
+        {
+            "name": "MailboxValidator",
+            "email": "support@mailboxvalidator.com"
+        }
+    ],
     "license": "MIT",
+    "version": "1.0.0",
     "require": {
         "cakephp/cakephp": "^3.5"
     },
