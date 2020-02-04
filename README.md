@@ -1,6 +1,13 @@
 # MailboxValidator CakePHP Email Validation Package
 
-MailboxValidator CakePHP Email Validation Package provides an easy way to call the MailboxValidator API which validates if an email address is valid.
+MailboxValidator CakePHP Email Validation Package  enables user to easily validate if an email address is valid, a type of disposable email or free email.
+
+This package can be useful in many types of projects, for example
+
+ - to validate an user's email during sign up
+ - to clean your mailing list prior to email sending
+ - to perform fraud check
+ - and so on
 
 
 
@@ -33,6 +40,22 @@ Configure::write('MBV_API_KEY','PASTE_YOUR_API_KEY_HERE');
 
 
 
+Functions
+---------
+
+### single (email_address)
+
+Performs email validation on the supplied email address.
+
+### disposable (email_address)
+
+Check if the supplied email address is from a disposable email provider.
+
+### free (email_address)
+
+Check if the supplied email address is from a free email provider.
+
+
 
 ## Usage
 
@@ -59,7 +82,7 @@ After that, add a new rule to your form field. For example, if you want to valid
 ```php
 ->add('email', 'disposable', [
         'rule' => 'disposable',
-		'provider' => 'mbv',
+        'provider' => 'mbv',
         'message' => 'Invalid email address. Please enter a non-disposable email address.',
 ])
 ```
@@ -83,4 +106,4 @@ The validators available to validate the email are: single, free and disposable.
 
 ## Copyright
 
-Copyright (C) 2018 by MailboxValidator.com, support@mailboxvalidator.com
+Copyright (C) 2018-2020 by MailboxValidator.com, support@mailboxvalidator.com
