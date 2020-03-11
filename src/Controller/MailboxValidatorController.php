@@ -7,8 +7,9 @@ class MailboxValidatorController{
 
 	public function single ($email) {
 		$api_key = Configure::read('MBV_API_KEY');
+		$source = 'cakephp';
 		if (trim($email) != '') {
-			$results = file_get_contents('https://api.mailboxvalidator.com/v1/validation/single?key=' . $api_key . '&email=' .$email);
+			$results = file_get_contents('https://api.mailboxvalidator.com/v1/validation/single?key=' . $api_key . '&email=' .$email. '&source=' .$source );
 			// Decode the return json results and return the data as an array.
 			$data = json_decode($results,true);
 			if (trim ($data['error_code']) == '' ) {
