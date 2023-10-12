@@ -18,11 +18,24 @@ Open the terminal, locate to your project root and run the following command :
 `composer require mailboxvalidator/mailboxvalidator-cakephp`
 
 
+If you want to manually install this plugin, firstly clone the plugin folder to the plugins folder under your website project. After that, add the following line into your project's composer.json file like this:
 
-If you want to manually install this plugin, firstly clone the plugin folder to the plugins folder under your website project. After that, include the following line in config/bootstrap.php:
+```json
+{
+    ....
+    "autoload": {
+        "psr-4": {
+            ....
+            "MailboxValidatorCakePHP\\": "plugins/mailboxvalidator-cakephp/src/"
+        }
+    },
+}
+```
 
-```php
-Plugin::load('mailboxvalidator-cakephp', ['bootstrap' => false, 'routes' => true, 'autoload' => true]);
+Remember to run this command to autoload our plugin:
+
+```bash
+composer dumpautoload
 ```
 
 
@@ -74,7 +87,7 @@ $MBV = new MailboxValidatorController();
 Add the below line right after the $validator:
 
 ```php
-->provider('mbv', $MBV)
+->setProvider('mbv', $MBV)
 ```
 
 After that, add a new rule to your form field. For example, if you want to validate the disposable email, your rule will be like this:
@@ -106,4 +119,4 @@ The validators available to validate the email are: single, free and disposable.
 
 ## Copyright
 
-Copyright (C) 2018-2020 by MailboxValidator.com, support@mailboxvalidator.com
+Copyright (C) 2018-2023 by MailboxValidator.com, support@mailboxvalidator.com

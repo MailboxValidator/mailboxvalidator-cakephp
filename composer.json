@@ -12,7 +12,7 @@
     ],
     "license": "MIT",
     "require": {
-        "cakephp/cakephp": "^3.5"
+        "cakephp/cakephp": "^5.*"
     },
     "autoload": {
         "psr-4": {

@@ -5,78 +5,122 @@ use Cake\Core\Configure;
 
 class MailboxValidatorController{
 
-	public function single ($email) {
-		$api_key = Configure::read('MBV_API_KEY');
-		$source = 'cakephp';
-		if (trim($email) != '') {
-			$results = file_get_contents('https://api.mailboxvalidator.com/v1/validation/single?key=' . $api_key . '&email=' .$email. '&source=' .$source );
-			// Decode the return json results and return the data as an array.
-			$data = json_decode($results,true);
-			if (trim ($data['error_code']) == '' ) {
-				$this->custom_log ($results);
-				if ( $data['status'] == 'False' ) {
-					return false;
-				} else {
-					return true;
-				}
-			}else {
-				$this->mbv_error_log ($data);
-				return false;
-			}
-		 }
-	}
+    private $source = 'cakephp';
+    private $singleValidationApiUrl = 'https://api.mailboxvalidator.com/v2/validation/single';
+    private $disposableEmailApiUrl = 'https://api.mailboxvalidator.com/v2/email/disposable';
+    private $freeEmailApiUrl = 'https://api.mailboxvalidator.com/v2/email/free';
+    
+    public function __construct()
+    {
+        $this->api_key = Configure::read('MBV_API_KEY');
+    }
+    
+    public function __destruct()
+    {
+    
+    }
 
-	public function disposable ($email) {
-		$api_key = Configure::read('MBV_API_KEY');
-		$source = 'cakephp';
-		if (trim($email) != '') {
-			$results = file_get_contents('https://api.mailboxvalidator.com/v1/email/disposable?key=' . $api_key . '&email=' .$email. '&source=' .$source );
-			// Decode the return json results and return the data as an array.
-			$data = json_decode($results,true);
-			if (trim ($data['error_code']) == '' ) {
-				$this->custom_log ($results);
-				if ( $data['is_disposable'] == 'True' ) {
-					return false;
-				} else {
-					return true;
-				}
-			}else {
-				$this->mbv_error_log ($data);
-				return false;
-			}
-		 }
-	}
+    public function single ($email) {
+        if (trim($email) != '') {
+            try {
+                $params = [ 'email' => $email, 'key' => $this->api_key, 'format' => 'json', 'source' => $this->source ];
+                $params2 = [];
+                foreach ($params as $key => $value) {
+                    $params2[] = $key . '=' . rawurlencode($value);
+                }
+                $params = implode('&', $params2);
+                
+                $results = file_get_contents($this->singleValidationApiUrl . '?' . $params);
+                
+                if ($results !== false) {
+                    if (!isset($results->error)) {
+                        $data = json_decode($results,true);
+                        if ( $data['status'] ) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            } catch (Exception $e) {
+                return true;
+            }
+         } else {
+            return true;
+         }
+    }
 
-	public function free($email){
-		$api_key = Configure::read('MBV_API_KEY');
-		$source = 'cakephp';
-		if (trim($email) != '') {
-			$results = file_get_contents('https://api.mailboxvalidator.com/v1/email/free?key=' . $api_key . '&email=' .$email. '&source=' .$source );
-			// Decode the return json results and return the data as an array.
-			$data = json_decode($results,true);
-			if (trim ($data['error_code']) == '' ) {
-				$this->custom_log ($results);
-				if ( $data['is_free'] == 'True' ) {
-					return false;
-				} else {
-					return true;
-				}
-			}else {
-				$this->mbv_error_log ($data);
-				return false;
-			}
-		}
-	}
+    public function disposable ($email) {
+        if (trim($email) != '') {
+            try {
+                $params = [ 'email' => $email, 'key' => $this->api_key, 'format' => 'json', 'source' => $this->source ];
+                $params2 = [];
+                foreach ($params as $key => $value) {
+                    $params2[] = $key . '=' . rawurlencode($value);
+                }
+                $params = implode('&', $params2);
+                
+                $results = file_get_contents($this->disposableEmailApiUrl . '?' . $params);
+                
+                if ($results !== false) {
+                    if (!isset($results->error)) {
+                        $data = json_decode($results, true);
+                        Log::write('debug', json_encode($data));
+                        if ( $data['is_disposable'] ) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            } catch (Exception $e) {
+                return true;
+            }
+         } else {
+            return true;
+         }
+    }
 
-	public function custom_log ($result) {
-		file_put_contents( '../logs/mbv_log.log', date('d M, Y h:i:s A') . PHP_EOL, FILE_APPEND);
-		file_put_contents( '../logs/mbv_log.log', $result . PHP_EOL, FILE_APPEND);
-	}
-
-	public function mbv_error_log ($data) {
-		file_put_contents( '../logs/mbv_error_log.log', date('d M, Y h:i:s A') . PHP_EOL, FILE_APPEND);
-		file_put_contents( '../logs/mbv_error_log.log', 'Error Code: ' . $data['error_code'] . PHP_EOL, FILE_APPEND);
-		file_put_contents( '../logs/mbv_error_log.log', 'Error Message: ' . $data['error_message'] . PHP_EOL, FILE_APPEND);
-	}
+    public function free($email){
+        if (trim($email) != '') {
+            try {
+                $params = [ 'email' => $email, 'key' => $this->api_key, 'format' => 'json', 'source' => $this->source ];
+                $params2 = [];
+                foreach ($params as $key => $value) {
+                    $params2[] = $key . '=' . rawurlencode($value);
+                }
+                $params = implode('&', $params2);
+                
+                $results = file_get_contents($this->freeEmailApiUrl . '?' . $params);
+                
+                if ($results !== false) {
+                    if (!isset($results->error)) {
+                        $data = json_decode($results,true);
+                        if ( $data['is_free'] ) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            } catch (Exception $e) {
+                return true;
+            }
+        } else {
+            return true;
+         }
+    }
 
 }
