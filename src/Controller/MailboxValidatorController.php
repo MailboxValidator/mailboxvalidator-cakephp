@@ -69,7 +69,6 @@ class MailboxValidatorController{
                 if ($results !== false) {
                     if (!isset($results->error)) {
                         $data = json_decode($results, true);
-                        Log::write('debug', json_encode($data));
                         if ( $data['is_disposable'] ) {
                             return false;
                         } else {
