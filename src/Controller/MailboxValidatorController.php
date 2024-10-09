@@ -9,15 +9,22 @@ class MailboxValidatorController{
     private $singleValidationApiUrl = 'https://api.mailboxvalidator.com/v2/validation/single';
     private $disposableEmailApiUrl = 'https://api.mailboxvalidator.com/v2/email/disposable';
     private $freeEmailApiUrl = 'https://api.mailboxvalidator.com/v2/email/free';
+    private $api_key;
     
     public function __construct()
     {
-        $this->api_key = Configure::read('MBV_API_KEY');
+        $this->api_key = self::getApiKey();
     }
     
     public function __destruct()
     {
     
+    }
+
+    // Static method to get the API key
+    private static function getApiKey()
+    {
+        return Configure::read('MBV_API_KEY');
     }
 
     public function single ($email) {
